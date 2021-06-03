@@ -397,3 +397,173 @@ void MGPIO_voidTogglePinDigitalValue(uint8 Copy_u8Port, uint8 Copy_u8Pin)
     }
 }
 
+void MGPIO_voidSetPortDigitalDirection(uint8 Copy_u8Port, uint8 Copy_u8Direction)
+{
+    // Set Mask
+    uint8 Local_u8Mask = 0xFF;
+    // Activate Clock on the Required Port
+    SYSCTL_RCGCGPIO_R |= (1<<Copy_u8Port);
+    switch(Copy_u8Port)
+    {
+    case GPIO_PORTA:
+        // Unlock GPIO Port
+        GPIO_PORTA_LOCK_R = 0x4C4F434B;
+        // Allow Commit Changes to the required pin
+        GPIO_PORTA_CR_R |= Local_u8Mask;
+        // Disable Alternative Function for the required Pin
+        GPIO_PORTA_AFSEL_R &=~ Local_u8Mask;
+        // Enable Digital Mode for the required Pin
+        GPIO_PORTA_DEN_R |= Local_u8Mask;
+        // Disable Analog Mode for the required Pin
+        GPIO_PORTA_AMSEL_R &=~ Local_u8Mask;
+        // Set Pin Direction for the required Pin
+        if(Copy_u8Direction == GPIO_DIGITAL_OUTPUT)
+        {
+            GPIO_PORTA_DIR_R |= Local_u8Mask;
+        }
+        else
+        {
+            GPIO_PORTA_DIR_R &=~ Local_u8Mask;
+        }
+        // Disable Pull-Down Resistors for the required Pin
+        GPIO_PORTA_PDR_R &=~ Local_u8Mask;
+        // Disable Pull-Up Resistors for the required Pin
+        GPIO_PORTA_PUR_R &=~ Local_u8Mask;
+        break;
+
+    case GPIO_PORTB:
+        // Unlock GPIO Port
+        GPIO_PORTB_LOCK_R = 0x4C4F434B;
+        // Allow Commit Changes to the required pin
+        GPIO_PORTB_CR_R |= Local_u8Mask;
+        // Disable Alternative Function for the required Pin
+        GPIO_PORTB_AFSEL_R &=~ Local_u8Mask;
+        // Enable Digital Mode for the required Pin
+        GPIO_PORTB_DEN_R |= Local_u8Mask;
+        // Disable Analog Mode for the required Pin
+        GPIO_PORTB_AMSEL_R &=~ Local_u8Mask;
+        // Set Pin Direction for the required Pin
+        if(Copy_u8Direction == GPIO_DIGITAL_OUTPUT)
+        {
+            GPIO_PORTB_DIR_R |= Local_u8Mask;
+        }
+        else
+        {
+            GPIO_PORTB_DIR_R &=~ Local_u8Mask;
+        }
+        // Disable Pull-Down Resistors for the required Pin
+        GPIO_PORTB_PDR_R &=~ Local_u8Mask;
+        // Disable Pull-Up Resistors for the required Pin
+        GPIO_PORTB_PUR_R &=~ Local_u8Mask;
+        break;
+
+    case GPIO_PORTC:
+        // It's Preferable to Avoid PORTC All together
+        break;
+
+    case GPIO_PORTD:
+        // Unlock GPIO Port
+        GPIO_PORTD_LOCK_R = 0x4C4F434B;
+        // Allow Commit Changes to the required pin
+        GPIO_PORTD_CR_R |= Local_u8Mask;
+        // Disable Alternative Function for the required Pin
+        GPIO_PORTD_AFSEL_R &=~ Local_u8Mask;
+        // Enable Digital Mode for the required Pin
+        GPIO_PORTD_DEN_R |= Local_u8Mask;
+        // Disable Analog Mode for the required Pin
+        GPIO_PORTD_AMSEL_R &=~ Local_u8Mask;
+        // Set Pin Direction for the required Pin
+        if(Copy_u8Direction == GPIO_DIGITAL_OUTPUT)
+        {
+            GPIO_PORTD_DIR_R |= Local_u8Mask;
+        }
+        else
+        {
+            GPIO_PORTD_DIR_R &=~ Local_u8Mask;
+        }
+        // Disable Pull-Down Resistors for the required Pin
+        GPIO_PORTD_PDR_R &=~ Local_u8Mask;
+        // Disable Pull-Up Resistors for the required Pin
+        GPIO_PORTD_PUR_R &=~ Local_u8Mask;
+        break;
+
+    case GPIO_PORTE:
+        // Unlock GPIO Port
+        GPIO_PORTE_LOCK_R = 0x4C4F434B;
+        // Allow Commit Changes to the required pin
+        GPIO_PORTE_CR_R |= Local_u8Mask;
+        // Disable Alternative Function for the required Pin
+        GPIO_PORTE_AFSEL_R &=~ Local_u8Mask;
+        // Enable Digital Mode for the required Pin
+        GPIO_PORTE_DEN_R |= Local_u8Mask;
+        // Disable Analog Mode for the required Pin
+        GPIO_PORTE_AMSEL_R &=~ Local_u8Mask;
+        // Set Pin Direction for the required Pin
+        if(Copy_u8Direction == GPIO_DIGITAL_OUTPUT)
+        {
+            GPIO_PORTE_DIR_R |= Local_u8Mask;
+        }
+        else
+        {
+            GPIO_PORTE_DIR_R &=~ Local_u8Mask;
+        }
+        // Disable Pull-Down Resistors for the required Pin
+        GPIO_PORTE_PDR_R &=~ Local_u8Mask;
+        // Disable Pull-Up Resistors for the required Pin
+        GPIO_PORTE_PUR_R &=~ Local_u8Mask;
+        break;
+
+    case GPIO_PORTF:
+        // Unlock GPIO Port
+        GPIO_PORTF_LOCK_R = 0x4C4F434B;
+        // Allow Commit Changes to the required pin
+        GPIO_PORTF_CR_R |= Local_u8Mask;
+        // Disable Alternative Function for the required Pin
+        GPIO_PORTF_AFSEL_R &=~ Local_u8Mask;
+        // Enable Digital Mode for the required Pin
+        GPIO_PORTF_DEN_R |= Local_u8Mask;
+        // Disable Analog Mode for the required Pin
+        GPIO_PORTF_AMSEL_R &=~ Local_u8Mask;
+        // Set Pin Direction for the required Pin
+        if(Copy_u8Direction == GPIO_DIGITAL_OUTPUT)
+        {
+            GPIO_PORTF_DIR_R |= Local_u8Mask;
+        }
+        else
+        {
+            GPIO_PORTF_DIR_R &=~ Local_u8Mask;
+        }
+
+        break;
+    }
+}
+
+void MGPIO_voidSetPortDigitalValue(uint8 Copy_u8Port, uint8 Copy_u8Value)
+{
+    switch(Copy_u8Port)
+    {
+    case GPIO_PORTA:
+        GPIO_PORTA_DATA_R = Copy_u8Value;
+        break;
+
+    case GPIO_PORTB:
+        GPIO_PORTB_DATA_R = Copy_u8Value;
+        break;
+
+    case GPIO_PORTC:
+        // It's Preferable to Avoid PORTC All together
+        break;
+
+    case GPIO_PORTD:
+        GPIO_PORTD_DATA_R = Copy_u8Value;
+        break;
+
+    case GPIO_PORTE:
+        GPIO_PORTE_DATA_R = Copy_u8Value;
+        break;
+
+    case GPIO_PORTF:
+        GPIO_PORTF_DATA_R = Copy_u8Value;
+        break;
+    }
+}
