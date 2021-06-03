@@ -1,17 +1,17 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.2                     
 ******************************************************************************
->> Linked Fri Jun  4 01:25:50 2021
+>> Linked Fri Jun  4 01:35:54 2021
 
 OUTPUT FILE NAME:   <GPS_Project.out>
-ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000da9
+ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000ead
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  00000de8  0003f218  R  X
+  FLASH                 00000000   00040000  00000f00  0003f100  R  X
   SRAM                  20000000   00008000  00000200  00007e00  RW X
 
 
@@ -19,9 +19,9 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00000de8   00000de8    r-x
+00000000    00000000    00000f00   00000f00    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00000b7c   00000b7c    r-x .text
+  0000026c    0000026c    00000c94   00000c94    r-x .text
 20000000    20000000    00000200   00000000    rw-
   20000000    20000000    00000200   00000000    rw- .stack
 
@@ -34,14 +34,15 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
 
-.text      0    0000026c    00000b7c     
+.text      0    0000026c    00000c94     
                   0000026c    00000ae4     GPIO_program.obj (.text)
-                  00000d50    00000056     main.obj (.text)
-                  00000da6    00000002     --HOLE-- [fill = 0]
-                  00000da8    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
-                  00000dd4    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
-                  00000de0    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  00000de4    00000004                                   : exit.c.obj (.text:abort:abort)
+                  00000d50    0000015a     LCD_program.obj (.text)
+                  00000eaa    00000002     --HOLE-- [fill = 0]
+                  00000eac    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
+                  00000ed8    00000014     main.obj (.text)
+                  00000eec    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00000ef8    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00000efc    00000004                                   : exit.c.obj (.text:abort:abort)
 
 .cinit     0    00000000    00000000     UNINITIALIZED
 
@@ -66,9 +67,10 @@ MODULE SUMMARY
                                                               
     .\src\
        GPIO_program.obj               2788   0         0      
-       main.obj                       86     0         0      
+       LCD_program.obj                346    0         0      
+       main.obj                       20     0         0      
     +--+------------------------------+------+---------+---------+
-       Total:                         2874   0         0      
+       Total:                         3154   0         0      
                                                               
     C:\ti\ccs1020\ccs\tools\compiler\ti-cgt-arm_20.2.2.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
        boot_cortex_m.c.obj            44     0         0      
@@ -79,14 +81,19 @@ MODULE SUMMARY
                                                               
        Stack:                         0      0         512    
     +--+------------------------------+------+---------+---------+
-       Grand Total:                   2938   620       512    
+       Grand Total:                   3218   620       512    
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
 address   name                             
 -------   ----                             
-00000de5  C$$EXIT                          
+00000efd  C$$EXIT                          
+00000e31  HLCD_Clear                       
+00000d51  HLCD_Init                        
+00000df1  HLCD_SendChar                    
+00000db1  HLCD_SendCommand                 
+00000e41  HLCD_SendString                  
 00000883  MGPIO_u8GetPinDigitalValue       
 0000051d  MGPIO_voidEnablePullUpDown       
 0000026d  MGPIO_voidSetPinDigitalDirection 
@@ -94,7 +101,7 @@ address   name
 000009cd  MGPIO_voidSetPortDigitalDirection
 00000c3b  MGPIO_voidSetPortDigitalValue    
 00000925  MGPIO_voidTogglePinDigitalValue  
-00000dd5  ResetISR                         
+00000eed  ResetISR                         
 20000200  __STACK_END                      
 00000200  __STACK_SIZE                     
 20000200  __STACK_TOP                      
@@ -108,12 +115,12 @@ UNDEFED   __mpu_init
 20000000  __stack                          
 20000000  __start___llvm_prf_cnts          
 20000000  __stop___llvm_prf_cnts           
-00000da9  _c_int00_noinit_noargs           
-00000de1  _system_pre_init                 
-00000de5  abort                            
+00000ead  _c_int00_noinit_noargs           
+00000ef9  _system_pre_init                 
+00000efd  abort                            
 ffffffff  binit                            
 00000000  g_pfnVectors                     
-00000d51  main                             
+00000ed9  main                             
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -130,12 +137,17 @@ address   name
 00000925  MGPIO_voidTogglePinDigitalValue  
 000009cd  MGPIO_voidSetPortDigitalDirection
 00000c3b  MGPIO_voidSetPortDigitalValue    
-00000d51  main                             
-00000da9  _c_int00_noinit_noargs           
-00000dd5  ResetISR                         
-00000de1  _system_pre_init                 
-00000de5  C$$EXIT                          
-00000de5  abort                            
+00000d51  HLCD_Init                        
+00000db1  HLCD_SendCommand                 
+00000df1  HLCD_SendChar                    
+00000e31  HLCD_Clear                       
+00000e41  HLCD_SendString                  
+00000ead  _c_int00_noinit_noargs           
+00000ed9  main                             
+00000eed  ResetISR                         
+00000ef9  _system_pre_init                 
+00000efd  C$$EXIT                          
+00000efd  abort                            
 20000000  __stack                          
 20000000  __start___llvm_prf_cnts          
 20000000  __stop___llvm_prf_cnts           
@@ -149,4 +161,4 @@ ffffffff  __c_args__
 ffffffff  binit                            
 UNDEFED   __mpu_init                       
 
-[28 symbols]
+[33 symbols]
