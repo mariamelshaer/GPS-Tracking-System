@@ -6,11 +6,6 @@
 
 int main(void)
 {
-    HLCD_Init();
-    HLCD_SendChar('A');
-    while(1)
-    {
-        HLCD_SendChar('A');
-    }
+
 }
 
