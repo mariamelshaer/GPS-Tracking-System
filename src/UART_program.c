@@ -154,6 +154,143 @@ void MUART5_voidInit(void)
 
 }
 
+/************************************************************************************************/
+
+uint8 MUART0_voidReceiveByte(void)
+{
+    while(UART0_FR_R & 0x10 == 1);
+    return UART0_DR_R;
+}
+
+uint8 MUART1_voidReceiveByte(void)
+{
+    while(UART1_FR_R & 0x10 == 1);
+    return UART1_DR_R;
+}
+
+uint8 MUART2_voidReceiveByte(void)
+{
+    while(UART2_FR_R & 0x10 == 1);
+    return UART2_DR_R;
+}
+
+uint8 MUART5_voidReceiveByte(void)
+{
+    while(UART5_FR_R & 0x10 == 1);
+    return UART5_DR_R;
+}
+
+/************************************************************************************************/
+
+void MUART0_u8SendByte(uint8 Copy_u8Data)
+{
+    while (UART0_FR_R & 0x20 == 1);
+    UART0_DR_R  = Copy_u8Data;
+}
+
+void MUART1_u8SendByte(uint8 Copy_u8Data)
+{
+    while (UART1_FR_R & 0x20 == 1);
+    UART1_DR_R  = Copy_u8Data;
+}
+
+void MUART2_u8SendByte(uint8 Copy_u8Data)
+{
+    while (UART2_FR_R & 0x20 == 1);
+    UART2_DR_R  = Copy_u8Data;
+}
+
+void MUART5_u8SendByte(uint8 Copy_u8Data)
+{
+    while (UART5_FR_R & 0x20 == 1);
+    UART5_DR_R  = Copy_u8Data;
+}
+
+/************************************************************************************************/
+
+uint8 MUART0_voidSendString(char * Ptr_u8String)
+{
+    uint16 Local_u16Timeout=0;
+    uint8 Local_u8Counter=0;
+    while (Ptr_u8String[Local_u8Counter] != '\0')
+    {
+        while (UART0_FR_R & 0x20 == 1)
+        {
+            Local_u16Timeout++;
+            if (Local_u16Timeout == 100000)
+            {
+                return 1;
+            }
+        }
+        UART0_DR_R = Ptr_u8String[Local_u8Counter];
+        Local_u8Counter++;
+    }
+    return 0;
+}
+
+uint8 MUART1_voidSendString(char * Ptr_u8String)
+{
+    uint16 Local_u16Timeout=0;
+    uint8 Local_u8Counter=0;
+    while (Ptr_u8String[Local_u8Counter] != '\0')
+    {
+        while (UART1_FR_R & 0x20 == 1)
+        {
+            Local_u16Timeout++;
+            if (Local_u16Timeout == 100000)
+            {
+                return 1;
+            }
+        }
+        UART1_DR_R = Ptr_u8String[Local_u8Counter];
+        Local_u8Counter++;
+    }
+    return 0;
+}
+
+uint8 MUART2_voidSendString(char * Ptr_u8String)
+{
+    uint16 Local_u16Timeout=0;
+    uint8 Local_u8Counter=0;
+    while (Ptr_u8String[Local_u8Counter] != '\0')
+    {
+        while (UART2_FR_R & 0x20 == 1)
+        {
+            Local_u16Timeout++;
+            if (Local_u16Timeout == 100000)
+            {
+                return 1;
+            }
+        }
+        UART2_DR_R = Ptr_u8String[Local_u8Counter];
+        Local_u8Counter++;
+    }
+    return 0;
+}
+
+uint8 MUART5_voidSendString(char * Ptr_u8String)
+{
+    uint16 Local_u16Timeout=0;
+    uint8 Local_u8Counter=0;
+    while (Ptr_u8String[Local_u8Counter] != '\0')
+    {
+        while (UART5_FR_R & 0x20 == 1)
+        {
+            Local_u16Timeout++;
+            if (Local_u16Timeout == 5000)
+            {
+                return 1;
+            }
+        }
+        UART5_DR_R = Ptr_u8String[Local_u8Counter];
+        Local_u8Counter++;
+    }
+    return 0;
+}
+
+/************************************************************************************************/
+
+
 static uint8 TwoCyclesWait(void)
 {
     uint8 i;

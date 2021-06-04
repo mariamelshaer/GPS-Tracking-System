@@ -12,5 +12,20 @@ void MUART1_voidInit(void);
 void MUART2_voidInit(void);
 void MUART5_voidInit(void);
 
+uint8 MUART0_voidReceiveByte(void);
+uint8 MUART1_voidReceiveByte(void);
+uint8 MUART2_voidReceiveByte(void);
+uint8 MUART5_voidReceiveByte(void);
+
+void MUART0_u8SendByte(uint8 Copy_u8Data);
+void MUART1_u8SendByte(uint8 Copy_u8Data);
+void MUART2_u8SendByte(uint8 Copy_u8Data);
+void MUART5_u8SendByte(uint8 Copy_u8Data);
+
+uint8 MUART0_voidSendString(char * Ptr_u8String);
+uint8 MUART1_voidSendString(char * Ptr_u8String);
+uint8 MUART2_voidSendString(char * Ptr_u8String);
+uint8 MUART5_voidSendString(char * Ptr_u8String);
+
 
 #endif
