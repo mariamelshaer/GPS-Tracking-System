@@ -1,6 +1,13 @@
 #ifndef UART_CONFIG_H
 #define UART_CONFIG_H
 
-
+/*  OPTIONS:
+ *      1-UART_INT_ACTIVE
+ *      2-UART_INT_INACTIVE
+ */
+#define UART0_INT   UART_INT_ACTIVE
+#define UART1_INT   UART_INT_INACTIVE
+#define UART2_INT   UART_INT_ACTIVE
+#define UART5_INT   UART_INT_INACTIVE
 
 #endif

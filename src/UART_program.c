@@ -8,7 +8,10 @@
 #include "GPIO_private.h"
 #include "UART_config.h"
 
-
+void (*UART0_CallBack) (void);
+void (*UART1_CallBack) (void);
+void (*UART2_CallBack) (void);
+void (*UART5_CallBack) (void);
 
 /************************************************************************************************/
 
@@ -43,6 +46,14 @@ void MUART0_voidInit(void)
     UART0_FBRD_R = UART_FBRD_9600;
     // Choose word length 8 bits & Disable FIFO
     UART0_LCRH_R =  UART_LCRH_8_FIFO;
+    #if UART0_INT == UART_INT_ACTIVE
+        // Clear Interrupt flag
+        UART0_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART0
+        UART0_IM_R |= 0x10;
+        // Enable UART0 Interrupt from NVIC (Interrupt 5 / VECTOR 21)
+        SET_BIT(NVIC_EN0_R, (INT_UART0-16));
+    #endif
     // Enable UART0
     UART0_CTL_R |= 0x00000001;
 }
@@ -78,6 +89,14 @@ void MUART1_voidInit(void)
     UART1_FBRD_R = UART_FBRD_9600;
     // Choose word length 8 bits & Disable FIFO
     UART1_LCRH_R =  UART_LCRH_8_FIFO;
+    #if UART1_INT == UART_INT_ACTIVE
+        // Clear Interrupt flag
+        UART1_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART1
+        UART1_IM_R |= 0x10;
+        // Enable UART1 Interrupt from NVIC (Interrupt 6 / VECTOR 22)
+        SET_BIT(NVIC_EN0_R, (INT_UART1-16));
+    #endif
     // Enable UART1
     UART1_CTL_R |= 0x00000001;
 
@@ -114,6 +133,14 @@ void MUART2_voidInit(void)
     UART2_FBRD_R = UART_FBRD_9600;
     // Choose word length 8 bits & Disable FIFO
     UART2_LCRH_R =  UART_LCRH_8_FIFO;
+    #if UART2_INT == UART_INT_ACTIVE
+        // Clear Interrupt flag
+        UART2_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART2
+        UART2_IM_R |= 0x10;
+        // Enable UART2 Interrupt from NVIC (Interrupt 33 / VECTOR 49)
+        SET_BIT(NVIC_EN1_R, (INT_UART2-16-32));
+    #endif
     // Enable UART6
     UART2_CTL_R |= 0x00000001;
 }
@@ -149,6 +176,14 @@ void MUART5_voidInit(void)
     UART5_FBRD_R = UART_FBRD_9600;
     // Choose word length 8 bits & Disable FIFO
     UART5_LCRH_R =  UART_LCRH_8_FIFO;
+    #if UART5_INT == UART_INT_ACTIVE
+        // Clear Interrupt flag
+        UART5_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART5
+        UART5_IM_R |= 0x10;
+        // Enable UART5 Interrupt from NVIC (Interrupt 61 / VECTOR 77)
+        SET_BIT(NVIC_EN1_R, (INT_UART5 - 16 - 32));
+    #endif
     // Enable UART5
     UART5_CTL_R |= 0x00000001;
 
@@ -204,6 +239,62 @@ void MUART5_u8SendByte(uint8 Copy_u8Data)
 {
     while (UART5_FR_R & 0x20 == 1);
     UART5_DR_R  = Copy_u8Data;
+}
+
+/************************************************************************************************/
+
+void MUART0_voidSetCallBack(void (*ptr)(void))
+{
+    UART0_CallBack = ptr;
+}
+
+void MUART1_voidSetCallBack(void (*ptr)(void))
+{
+    UART1_CallBack = ptr;
+}
+
+void MUART2_voidSetCallBack(void (*ptr)(void))
+{
+    UART2_CallBack = ptr;
+}
+
+void MUART5_voidSetCallBack(void (*ptr)(void))
+{
+    UART5_CallBack = ptr;
+}
+
+/************************************************************************************************/
+
+void UART0_Handler(void)
+{
+    // Clear Receive Interrupt Flag for UART0
+    CLR_BIT(UART0_ICR_R, 4);
+    // CallBack Function
+    UART0_CallBack();
+}
+
+void UART1_Handler(void)
+{
+    // Clear Receive Interrupt Flag for UART1
+    CLR_BIT(UART1_ICR_R, 4);
+    // CallBack Function
+    UART1_CallBack();
+}
+
+void UART2_Handler(void)
+{
+    // Clear Receive Interrupt Flag for UART2
+    CLR_BIT(UART2_ICR_R, 4);
+    // CallBack Function
+    UART2_CallBack();
+}
+
+void UART5_Handler(void)
+{
+    // Clear Receive Interrupt Flag for UART5
+    CLR_BIT(UART5_ICR_R, 4);
+    // CallBack Function
+    UART5_CallBack();
 }
 
 /************************************************************************************************/
@@ -290,6 +381,59 @@ uint8 MUART5_voidSendString(char * Ptr_u8String)
 
 /************************************************************************************************/
 
+void MUART_voidActivatInterrupt(uint8 Copy_u8UARTNum)
+{
+    switch(Copy_u8UARTNum)
+    {
+    case UART_0:
+        // Clear Interrupt flag
+        UART0_ICR_R &=~ 0x0412;
+        UART0_ECR_R = 0;
+        UART0_IM_R |= 0x10;
+        break;
+    case UART_1:
+        // Clear Interrupt flag
+        UART1_ICR_R &=~ 0x0412;
+        UART1_ECR_R = 0;
+        UART1_IM_R |= 0x10;
+        break;
+    case UART_2:
+        // Clear Interrupt flag
+        UART2_ICR_R &=~ 0x0412;
+        UART2_ECR_R = 0;
+        UART2_IM_R |= 0x10;
+        break;
+    case UART_5:
+        // Clear Interrupt flag
+        UART5_ICR_R &=~ 0x0412;
+        UART5_ECR_R = 0;
+        UART5_IM_R |= 0x10;
+        break;
+
+    }
+}
+
+void MUART_voidDeactivatInterrupt(uint8 Copy_u8UARTNum)
+{
+    switch(Copy_u8UARTNum)
+    {
+    case UART_0:
+        UART0_IM_R &=~ 0x10;
+        break;
+    case UART_1:
+        UART1_IM_R &=~ 0x10;
+        break;
+    case UART_2:
+        UART2_IM_R &=~ 0x10;
+        break;
+    case UART_5:
+        UART5_IM_R &=~ 0x10;
+        break;
+
+    }
+}
+
+/************************************************************************************************/
 
 static uint8 TwoCyclesWait(void)
 {

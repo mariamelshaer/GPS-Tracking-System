@@ -22,10 +22,17 @@ void MUART1_u8SendByte(uint8 Copy_u8Data);
 void MUART2_u8SendByte(uint8 Copy_u8Data);
 void MUART5_u8SendByte(uint8 Copy_u8Data);
 
+void MUART0_voidSetCallBack(void (*ptr)(void));
+void MUART1_voidSetCallBack(void (*ptr)(void));
+void MUART2_voidSetCallBack(void (*ptr)(void));
+void MUART5_voidSetCallBack(void (*ptr)(void));
+
 uint8 MUART0_voidSendString(char * Ptr_u8String);
 uint8 MUART1_voidSendString(char * Ptr_u8String);
 uint8 MUART2_voidSendString(char * Ptr_u8String);
 uint8 MUART5_voidSendString(char * Ptr_u8String);
 
+void MUART_voidActivatInterrupt(uint8 Copy_u8UARTNum);
+void MUART_voidDeactivatInterrupt(uint8 Copy_u8UARTNum);
 
 #endif
