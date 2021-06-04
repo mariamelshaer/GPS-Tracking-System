@@ -33,6 +33,10 @@ void ResetISR(void);
 static void NmiSR(void);
 static void FaultISR(void);
 static void IntDefaultHandler(void);
+void UART0_Handler(void);
+void UART1_Handler(void);
+void UART2_Handler(void);
+void UART5_Handler(void);
 
 //*****************************************************************************
 //
@@ -88,8 +92,8 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // GPIO Port C
     IntDefaultHandler,                      // GPIO Port D
     IntDefaultHandler,                      // GPIO Port E
-    IntDefaultHandler,                      // UART0 Rx and Tx
-    IntDefaultHandler,                      // UART1 Rx and Tx
+    UART0_Handler,                          // UART0 Rx and Tx
+    UART1_Handler,                          // UART1 Rx and Tx
     IntDefaultHandler,                      // SSI0 Rx and Tx
     IntDefaultHandler,                      // I2C0 Master and Slave
     IntDefaultHandler,                      // PWM Fault
@@ -116,7 +120,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // GPIO Port F
     IntDefaultHandler,                      // GPIO Port G
     IntDefaultHandler,                      // GPIO Port H
-    IntDefaultHandler,                      // UART2 Rx and Tx
+    UART2_Handler,                          // UART2 Rx and Tx
     IntDefaultHandler,                      // SSI1 Rx and Tx
     IntDefaultHandler,                      // Timer 3 subtimer A
     IntDefaultHandler,                      // Timer 3 subtimer B
@@ -144,7 +148,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // SSI3 Rx and Tx
     IntDefaultHandler,                      // UART3 Rx and Tx
     IntDefaultHandler,                      // UART4 Rx and Tx
-    IntDefaultHandler,                      // UART5 Rx and Tx
+    UART5_Handler,                          // UART5 Rx and Tx
     IntDefaultHandler,                      // UART6 Rx and Tx
     IntDefaultHandler,                      // UART7 Rx and Tx
     0,                                      // Reserved
