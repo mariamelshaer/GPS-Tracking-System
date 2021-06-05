@@ -27,6 +27,9 @@ int main(void)
     // Initialize GPS Module
     HGPS_voidInit();
 
+    // Initialize UART 0
+    MUART0_voidInit();
+
     // Turn ON RED LED
     MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_HIGH);
 

@@ -27,10 +27,10 @@ void MUART1_voidSetCallBack(void (*ptr)(void));
 void MUART2_voidSetCallBack(void (*ptr)(void));
 void MUART5_voidSetCallBack(void (*ptr)(void));
 
-uint8 MUART0_voidSendString(char * Ptr_u8String);
-uint8 MUART1_voidSendString(char * Ptr_u8String);
-uint8 MUART2_voidSendString(char * Ptr_u8String);
-uint8 MUART5_voidSendString(char * Ptr_u8String);
+uint8 MUART0_voidSendString(volatile char * Ptr_u8String);
+uint8 MUART1_voidSendString(volatile char * Ptr_u8String);
+uint8 MUART2_voidSendString(volatile char * Ptr_u8String);
+uint8 MUART5_voidSendString(volatile char * Ptr_u8String);
 
 uint8 MUART0_voidReceiveString(char * Ptr_u8String);
 

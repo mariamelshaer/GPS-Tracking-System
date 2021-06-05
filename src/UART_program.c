@@ -299,16 +299,16 @@ void UART5_Handler(void)
 
 /************************************************************************************************/
 
-uint8 MUART0_voidSendString(char * Ptr_u8String)
+uint8 MUART0_voidSendString(volatile char * Ptr_u8String)
 {
     uint16 Local_u16Timeout=0;
     uint8 Local_u8Counter=0;
     while (Ptr_u8String[Local_u8Counter] != '\0')
     {
-        while (UART0_FR_R & 0x20 == 1)
+        while (GET_BIT(UART0_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 100000)
+            if (Local_u16Timeout == 1000)
             {
                 return 1;
             }
@@ -319,16 +319,16 @@ uint8 MUART0_voidSendString(char * Ptr_u8String)
     return 0;
 }
 
-uint8 MUART1_voidSendString(char * Ptr_u8String)
+uint8 MUART1_voidSendString(volatile char * Ptr_u8String)
 {
     uint16 Local_u16Timeout=0;
     uint8 Local_u8Counter=0;
     while (Ptr_u8String[Local_u8Counter] != '\0')
     {
-        while (UART1_FR_R & 0x20 == 1)
+        while (GET_BIT(UART1_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 100000)
+            if (Local_u16Timeout == 1000)
             {
                 return 1;
             }
@@ -339,16 +339,16 @@ uint8 MUART1_voidSendString(char * Ptr_u8String)
     return 0;
 }
 
-uint8 MUART2_voidSendString(char * Ptr_u8String)
+uint8 MUART2_voidSendString(volatile char * Ptr_u8String)
 {
     uint16 Local_u16Timeout=0;
     uint8 Local_u8Counter=0;
     while (Ptr_u8String[Local_u8Counter] != '\0')
     {
-        while (UART2_FR_R & 0x20 == 1)
+        while (GET_BIT(UART2_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 100000)
+            if (Local_u16Timeout == 1000)
             {
                 return 1;
             }
@@ -359,16 +359,16 @@ uint8 MUART2_voidSendString(char * Ptr_u8String)
     return 0;
 }
 
-uint8 MUART5_voidSendString(char * Ptr_u8String)
+uint8 MUART5_voidSendString(volatile char * Ptr_u8String)
 {
     uint16 Local_u16Timeout=0;
     uint8 Local_u8Counter=0;
     while (Ptr_u8String[Local_u8Counter] != '\0')
     {
-        while (UART5_FR_R & 0x20 == 1)
+        while (GET_BIT(UART5_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 5000)
+            if (Local_u16Timeout == 1000)
             {
                 return 1;
             }

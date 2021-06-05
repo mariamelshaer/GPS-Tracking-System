@@ -82,11 +82,21 @@ static void GPS_voidReceive(void)
                     FirstFlag = 1;
                     Floatlat1 = LatitudeGetFloat(lat1);
                     Floatlon1 = LongitudeGetFloat(lon1);
+                    MUART0_voidSendString("(");
+                    MUART0_voidSendString(lat1);
+                    MUART0_voidSendString(",");
+                    MUART0_voidSendString(lon1);
+                    MUART0_voidSendString(")");
                 }
                 else
                 {
                     Floatlat2 = LatitudeGetFloat(lat2);
                     Floatlon2 = LongitudeGetFloat(lon2);
+                    MUART0_voidSendString("(");
+                    MUART0_voidSendString(lat2);
+                    MUART0_voidSendString(",");
+                    MUART0_voidSendString(lon2);
+                    MUART0_voidSendString(")");
                     Distance += GetDistance();
                     GetString ( (int) Distance, S_Distance);
                     HLCD_voidClear();
