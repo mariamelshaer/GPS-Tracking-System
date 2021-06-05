@@ -101,7 +101,110 @@ static void GPS_voidReceive(void)
 
 static uint8 GPS_Parse(void)
 {
+    uint8 n1 = 0;
+    uint8 n2 = 0;
+    uint8 j = 0;
+    uint8 flaglat = 0;
+    uint8 flaglon = 0;
 
+
+    if (FirstFlag == 0)
+    {
+        if(Data[5]=='C')
+        {
+            for(j=5; j<100;j++)
+            {
+                if(Data[j]=='V')
+                {
+                    flaglat = 0;
+                    flaglon = 0;
+                    return 1;
+                }
+                if(Data[j-1]=='A' && Data[j]==',')
+                {
+                    flaglat = 1;
+                }
+                if((Data[j+1] == ',') && (flaglat == 1))
+                {
+                    flaglat = 0;
+                    break;
+                }
+                if(flaglat)
+                {
+                    lat1[n1++]=Data[j+1];
+                }
+
+            }
+
+            for(j=5; j<100;j++)
+            {
+
+                if(Data[j+1]=='N' && Data[j]==',')
+                {
+                    flaglon = 1;
+                }
+                if((Data[j+3] == ',') && (flaglon == 1))
+                {
+                    flaglon = 0;
+                    return 0;
+                }
+                if(flaglon)
+                {
+                    lon1[n2++]=Data[j+3];
+                }
+            }
+            return 0;
+        }
+    }
+    else
+    {
+        if(Data[5]=='C')
+        {
+            for(j=5; j<100;j++)
+            {
+                if(Data[j]=='V')
+                {
+                    flaglat = 0;
+                    flaglon = 0;
+                    return 1;
+                }
+                if(Data[j-1]=='A' && Data[j]==',')
+                {
+                    flaglat = 1;
+                }
+                if((Data[j+1] == ',') && (flaglat == 1))
+                {
+                    flaglat = 0;
+                    break;
+                }
+                if(flaglat)
+                {
+                    lat2[n1++]=Data[j+1];
+                }
+
+            }
+
+            for(j=5; j<100;j++)
+            {
+
+                if(Data[j+1]=='N' && Data[j]==',')
+                {
+                    flaglon = 1;
+                }
+                if((Data[j+3] == ',') && (flaglon == 1))
+                {
+                    flaglon = 0;
+                    return 0;
+                }
+                if(flaglon)
+                {
+                    lon2[n2++]=Data[j+3];
+                }
+            }
+            return 0;
+        }
+    }
+    return 0;
 }
 
 static float LatitudeGetFloat(volatile char * lat)
