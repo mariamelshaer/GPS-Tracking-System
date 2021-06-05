@@ -274,9 +274,50 @@ static float GetDistance(void)
 
 static void GetString(int num, char * str)
 {
+    int i = 0;
+    uint8 isNegative = 0;
 
+    if (num == 0)
+    {
+        str[i++] = '0';
+        str[i] = '\0';
+        return;
+    }
+
+    if (num < 0)
+    {
+        isNegative = 1;
+        num = -num;
+    }
+
+    while (num != 0)
+    {
+        int rem = num % 10;
+        str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
+        num = num/10;
+    }
+
+    if (isNegative)
+        str[i++] = '-';
+
+    str[i] = '\0';
+
+    int start = 0;
+    int end = i -1;
+    while (start < end)
+    {
+        swap(str+start, str+end);
+        start++;
+        end--;
+    }
 }
 
+static void swap(char *xp, char *yp)
+{
+    char temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
 
 
 
