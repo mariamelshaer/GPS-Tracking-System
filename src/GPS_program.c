@@ -88,6 +88,11 @@ static void GPS_voidReceive(void)
                     Floatlat2 = LatitudeGetFloat(lat2);
                     Floatlon2 = LongitudeGetFloat(lon2);
                     Distance += GetDistance();
+                    GetString ( (int) Distance, S_Distance);
+                    HLCD_voidClear();
+                    HLCD_voidSendString("Distance is ");
+                    HLCD_voidSendString(S_Distance);
+                    HLCD_voidSendString("m");
                     Floatlat1 = Floatlat2;
                     Floatlon1 = Floatlon2;
                 }
@@ -318,7 +323,6 @@ static void swap(char *xp, char *yp)
     *xp = *yp;
     *yp = temp;
 }
-
 
 
 
