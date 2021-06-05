@@ -264,6 +264,16 @@ static float LongitudeGetFloat(volatile char * lon)
 
 static float GetDistance(void)
 {
+    float p = 3.14159 / 180;
+    float x = pow(sin((Floatlat2 * p - Floatlat1 * p) / 2), 2);
+    float y = (cos(Floatlat2*p))* cos(Floatlat1*p) * sin(pow((Floatlon2*p - Floatlon1 * p) / 2, 2));
+    float z = sqrt(x + y);
+    float d = 2 * 6371000 * asin(z);
+    return d;
+}
+
+static void GetString(int num, char * str)
+{
 
 }
 
