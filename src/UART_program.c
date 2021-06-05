@@ -387,27 +387,36 @@ void MUART_voidActivatInterrupt(uint8 Copy_u8UARTNum)
     {
     case UART_0:
         // Clear Interrupt flag
-        UART0_ICR_R &=~ 0x0412;
-        UART0_ECR_R = 0;
+        UART0_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART0
         UART0_IM_R |= 0x10;
+        // Enable UART0 Interrupt from NVIC (Interrupt 5 / VECTOR 21)
+        SET_BIT(NVIC_EN0_R, (INT_UART0-16));
         break;
+
     case UART_1:
         // Clear Interrupt flag
-        UART1_ICR_R &=~ 0x0412;
-        UART1_ECR_R = 0;
+        UART1_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART1
         UART1_IM_R |= 0x10;
+        // Enable UART1 Interrupt from NVIC (Interrupt 6 / VECTOR 22)
+        SET_BIT(NVIC_EN0_R, (INT_UART1-16));
         break;
     case UART_2:
         // Clear Interrupt flag
-        UART2_ICR_R &=~ 0x0412;
-        UART2_ECR_R = 0;
+        UART2_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART2
         UART2_IM_R |= 0x10;
+        // Enable UART2 Interrupt from NVIC (Interrupt 33 / VECTOR 49)
+        SET_BIT(NVIC_EN1_R, (INT_UART2-16-32));
         break;
     case UART_5:
         // Clear Interrupt flag
-        UART5_ICR_R &=~ 0x0412;
-        UART5_ECR_R = 0;
+        UART5_ICR_R &= ~(0x0780);
+        // Enable Receive Interrupt for UART5
         UART5_IM_R |= 0x10;
+        // Enable UART5 Interrupt from NVIC (Interrupt 61 / VECTOR 77)
+        SET_BIT(NVIC_EN1_R, (INT_UART5 - 16 - 32));
         break;
 
     }
@@ -432,8 +441,6 @@ void MUART_voidDeactivatInterrupt(uint8 Copy_u8UARTNum)
 
     }
 }
-
-/************************************************************************************************/
 
 static uint8 TwoCyclesWait(void)
 {

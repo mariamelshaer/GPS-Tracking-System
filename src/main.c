@@ -4,41 +4,50 @@
 
 #include"GPIO_interface.h"
 #include"UART_interface.h"
+
 #include"LCD_interface.h"
+#include"GPS_interface.h"
 
-volatile char Data[100];
-volatile uint8 GPRMC_Flag = 0;
-volatile uint8 GPRMC_Counter = 0;
-volatile uint8 Counter = 0;
-
-void CallBack_UART2(void);
-void Parse(void);
+# define REQUIRED_DISTANCE  100
 
 int main(void)
 {
-    HLCD_Init();
-    MUART2_voidInit();
-    MUART2_voidSetCallBack(CallBack_UART2);
-    while(1);
-}
+    // Initialize RED & BLUE & GREEN LEDs
+    MGPIO_voidSetPinDigitalDirection(GPIO_PORTF, PIN1, GPIO_DIGITAL_OUTPUT);
+    MGPIO_voidSetPinDigitalDirection(GPIO_PORTF, PIN2, GPIO_DIGITAL_OUTPUT);
+    MGPIO_voidSetPinDigitalDirection(GPIO_PORTF, PIN3, GPIO_DIGITAL_OUTPUT);
 
-void CallBack_UART2(void)
-{
-    uint8 Local_u8Data = MUART2_voidReceiveByte();
-    if (Local_u8Data == '$')
+    // Initialize Switch 1
+    MGPIO_voidSetPinDigitalDirection(GPIO_PORTF, PIN0, GPIO_DIGITAL_INPUT);
+    MGPIO_voidEnablePullUpDown(GPIO_PORTF, PIN0, GPIO_PULL_UP);
+
+    // Initialize LCD
+    HLCD_voidInit();
+
+    // Initialize GPS Module
+    HGPS_voidInit();
+
+    // Turn ON RED LED
+    MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_HIGH);
+
+    while(MGPIO_u8GetPinDigitalValue(GPIO_PORTF, PIN0) == 1);
+    // Turn OFF RED LED
+    MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_LOW);
+
+    // Turn ON BLUE LED
+    MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN2, GPIO_HIGH);
+
+    HGPS_voidStart();
+    while(1)
     {
-        Counter = 0;
-        if ((Data[0]=='$') && (Data[1]=='G') && (Data[2]=='P') && (Data[3]=='R') && (Data[4]=='M') && (Data[5]=='C'))
+        extern volatile float Distance;
+        if (Distance >= REQUIRED_DISTANCE)
         {
-            Parse();
+            // Turn OFF BLUE LED
+            MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN2, GPIO_LOW);
+
+            // Turn ON GREEN LED
+            MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN3, GPIO_HIGH);
         }
     }
-    Data[Counter] = Local_u8Data;
-    Counter++;
 }
-
-void Parse(void)
-{
-
-}
-

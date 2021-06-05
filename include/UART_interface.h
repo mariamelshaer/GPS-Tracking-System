@@ -32,6 +32,8 @@ uint8 MUART1_voidSendString(char * Ptr_u8String);
 uint8 MUART2_voidSendString(char * Ptr_u8String);
 uint8 MUART5_voidSendString(char * Ptr_u8String);
 
+uint8 MUART0_voidReceiveString(char * Ptr_u8String);
+
 void MUART_voidActivatInterrupt(uint8 Copy_u8UARTNum);
 void MUART_voidDeactivatInterrupt(uint8 Copy_u8UARTNum);
 
