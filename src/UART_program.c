@@ -308,7 +308,7 @@ uint8 MUART0_voidSendString(volatile char * Ptr_u8String)
         while (GET_BIT(UART0_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 1000)
+            if (Local_u16Timeout == 10000)
             {
                 return 1;
             }
@@ -328,7 +328,7 @@ uint8 MUART1_voidSendString(volatile char * Ptr_u8String)
         while (GET_BIT(UART1_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 1000)
+            if (Local_u16Timeout == 10000)
             {
                 return 1;
             }
@@ -348,7 +348,7 @@ uint8 MUART2_voidSendString(volatile char * Ptr_u8String)
         while (GET_BIT(UART2_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 1000)
+            if (Local_u16Timeout == 10000)
             {
                 return 1;
             }
@@ -368,7 +368,7 @@ uint8 MUART5_voidSendString(volatile char * Ptr_u8String)
         while (GET_BIT(UART5_FR_R, 5) == 1)
         {
             Local_u16Timeout++;
-            if (Local_u16Timeout == 1000)
+            if (Local_u16Timeout == 10000)
             {
                 return 1;
             }

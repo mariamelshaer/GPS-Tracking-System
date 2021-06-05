@@ -34,8 +34,6 @@ int main(void)
     MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_HIGH);
 
     while(MGPIO_u8GetPinDigitalValue(GPIO_PORTF, PIN0) == 1);
-    // Turn OFF RED LED
-    MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_LOW);
 
     // Turn ON BLUE LED
     MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN2, GPIO_HIGH);

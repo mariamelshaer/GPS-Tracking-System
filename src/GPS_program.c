@@ -82,6 +82,8 @@ static void GPS_voidReceive(void)
                     FirstFlag = 1;
                     Floatlat1 = LatitudeGetFloat(lat1);
                     Floatlon1 = LongitudeGetFloat(lon1);
+                    // Turn OFF RED LED
+                    MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_LOW);
                     MUART0_voidSendString("(");
                     MUART0_voidSendString(lat1);
                     MUART0_voidSendString(",");
