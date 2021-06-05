@@ -209,11 +209,57 @@ static uint8 GPS_Parse(void)
 
 static float LatitudeGetFloat(volatile char * lat)
 {
+    uint8 k = 0;
+    uint8 s = 0;
+    // Get the degrees only for Latitude
+    char dlat[5]={'\0','\0','\0','\0','\0'};
+    for (k = 0;k < 2;k++)
+    {
+        dlat[k] = lat[k];
+    }
+    int f1;
+    f1 = (int) atoi (dlat);
+
+    // Get the minutes only for Latitude
+    char mlat[10]={'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+
+    for (k=2 ,s=0; k<9; k++, s++)
+    {
+        mlat[s] = lat[k];
+    }
+    float ff1;
+    ff1 = (float) atof (mlat);
+
+    //convert to degree decimal & Return Float Latitude
+    float x = f1 + (ff1 / 60.0);
+    return x;
 
 }
 static float LongitudeGetFloat(volatile char * lon)
 {
+    uint8 l = 0;
+    uint8 s = 0;
+    // Get the degrees only for Longitude
+    char dlon[5]={'\0','\0','\0','\0','\0'};
+    for (l=0; l < 3; l++)
+    {
+        dlon[l] = lon[l];
+    }
+    int f2;
+    f2 = (int) atoi (dlon);
 
+    // Get the minutes only for Longitude
+    char mlon[10]={'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+    for (l=3 ,s=0; l<9; l++, s++)
+    {
+        mlon[s] = lon[l];
+    }
+    float ff2;
+    ff2 = (float) atof (mlon);
+
+    //convert to degree decimal & Return Float Longitude
+    float y = f2 + (ff2 / 60.0);
+    return y;
 }
 
 static float GetDistance(void)
