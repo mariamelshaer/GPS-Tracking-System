@@ -23,15 +23,18 @@ volatile char lat1[10];
 volatile char lon2[11];
 volatile char lat2[10];
 
+
 volatile float Distance = 0;
 volatile float Floatlon1;
 volatile float Floatlat1;
 volatile float Floatlon2;
 volatile float Floatlat2;
 
+
 volatile uint8 Counter = 0;
 volatile uint8 FirstFlag = 0;
 volatile uint8 AVFlag = 0;
+volatile uint8 ReadingCount = 0;
 
 
 void HGPS_voidInit(void)
@@ -73,6 +76,8 @@ static void GPS_voidReceive(void)
         Counter = 0;
         if ((Data[0]=='$') && (Data[1]=='G') && (Data[2]=='P') && (Data[3]=='R') && (Data[4]=='M') && (Data[5]=='C') && (AVFlag == 1))
         {
+
+            ReadingCount = 0;
             ValidFlag = GPS_Parse();
             AVFlag = 0;
             if (ValidFlag == 0)
@@ -84,21 +89,19 @@ static void GPS_voidReceive(void)
                     Floatlon1 = LongitudeGetFloat(lon1);
                     // Turn OFF RED LED
                     MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN1, GPIO_LOW);
-                    MUART0_voidSendString("(");
                     MUART0_voidSendString(lat1);
-                    MUART0_voidSendString(",");
+                    MUART0_voidSendString("\n");
                     MUART0_voidSendString(lon1);
-                    MUART0_voidSendString(")");
+                    MUART0_voidSendString("\n");
                 }
                 else
                 {
                     Floatlat2 = LatitudeGetFloat(lat2);
                     Floatlon2 = LongitudeGetFloat(lon2);
-                    MUART0_voidSendString("(");
                     MUART0_voidSendString(lat2);
-                    MUART0_voidSendString(",");
+                    MUART0_voidSendString("\n");
                     MUART0_voidSendString(lon2);
-                    MUART0_voidSendString(")");
+                    MUART0_voidSendString("\n");
                     Distance += GetDistance();
                     GetString ( (int) Distance, S_Distance);
                     HLCD_voidClear();
@@ -152,6 +155,10 @@ static uint8 GPS_Parse(void)
                 }
 
             }
+            if ((lat1[0]!='3')||(lat1[1]!='0'))
+            {
+                return 1;
+            }
 
             for(j=5; j<100;j++)
             {
@@ -169,6 +176,10 @@ static uint8 GPS_Parse(void)
                 {
                     lon1[n2++]=Data[j+3];
                 }
+            }
+            if ((lon1[1]!='3')||(lon1[2]!='1'))
+            {
+                return 1;
             }
             return 0;
         }
@@ -200,6 +211,10 @@ static uint8 GPS_Parse(void)
                 }
 
             }
+            if ((lat2[0]!='3')||(lat2[1]!='0'))
+            {
+                return 1;
+            }
 
             for(j=5; j<100;j++)
             {
@@ -217,6 +232,10 @@ static uint8 GPS_Parse(void)
                 {
                     lon2[n2++]=Data[j+3];
                 }
+            }
+            if ((lon2[1]!='3')||(lon2[2]!='1'))
+            {
+                return 1;
             }
             return 0;
         }
@@ -335,6 +354,8 @@ static void swap(char *xp, char *yp)
     *xp = *yp;
     *yp = temp;
 }
+
+
 
 
 

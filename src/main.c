@@ -44,11 +44,20 @@ int main(void)
         extern volatile float Distance;
         if (Distance >= REQUIRED_DISTANCE)
         {
+            // Stop Sending to PC
+            MUART0_voidSendString("Exit");
+            MUART0_voidSendString("\n");
+
+            // Deactivate UART2 Interrupt (GPS_UART)
+            MUART_voidDeactivatInterrupt(UART_2);
+
             // Turn OFF BLUE LED
             MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN2, GPIO_LOW);
 
             // Turn ON GREEN LED
             MGPIO_voidSetPinDigitalValue(GPIO_PORTF, PIN3, GPIO_HIGH);
+            break;
         }
     }
+    while(1);
 }
